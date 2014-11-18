@@ -1,0 +1,12 @@
+/*First
+program*/
+
+link io
+define SIZE 10
+
+class Main
+	function main() as int
+		printf("Hello World\n")		// prints string
+		return 0
+	end function
+end class
