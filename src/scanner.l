@@ -13,7 +13,7 @@ int col_num = 0;	//counter for current column
 "//".*								{printf("{COMMENT,\"%s\"}\n", yytext);}
 
 									/*Statement Terminator*/
-\n									{line_num++; col_num = 0; printf("NEWLINE \n");}
+\n									{line_num++; col_num = 0; printf("");}
 
 									/*Constant values*/
 [Tt][Rr][Uu][Ee]					{printf("{BOOLEAN,\"%s\"}\n", yytext);}
@@ -21,10 +21,8 @@ int col_num = 0;	//counter for current column
 '[^"\"""\']'						{printf("{CHARACTER,\"%s\"}\n", yytext);}
 '\\[ntra\\"\"""\'"]'				{printf("{CHARACTER,\"%s\"}\n", yytext);}
 "\""([^"\""]|"\\\"")*"\""			{printf("{STRING,\"%s\"}\n", yytext);}
+-?[0-9]+							{printf("{INTEGERNUM,\"%s\"}\n", yytext);}
 -?[0-9]+("."[0-9]+)?				{printf("{FLOATNUM,\"%s\"}\n", yytext);}
--?[1-9]+							{printf("{DECIMALINT,\"%s\"}\n", yytext);}
--?0[0-9]*							{printf("{OCTALINT,\"%s\"}\n", yytext);}
--?0[xX][0-9]*						{printf("{HEXINT,\"%s\"}\n", yytext);}
 [Nn][Uu][Ll][Ll]					{printf("{NULL,\"%s\"}\n", yytext);}
 
 									/*Data types*/
@@ -78,6 +76,7 @@ int col_num = 0;	//counter for current column
 ":"		{printf("{COLON, \"%s\"}\n", yytext);}
 "->"	{printf("{ARROW, \"%s\"}\n", yytext);}
 
+
 									/*Keywords*/
 [Ee][Nn][Dd]						{printf("{END, \"%s\"}\n", yytext);}
 [Vv][Oo][Ii][Dd]					{printf("{VOID, \"%s\"}\n", yytext);}
@@ -109,8 +108,19 @@ int col_num = 0;	//counter for current column
 [Dd][Ee][Ff][Ii][Nn][Ee]			{printf("{DEFINE, \"%s\"}\n", yytext);}
 [Aa][Ll][Ii][Aa][Ss]				{printf("{ALIAS, \"%s\"}\n", yytext);}
 
-[A-Za-z][A-Za-z0-9_]*				{printf("{IDENTIFIER, \"%s\"}\n", yytext);}
+									/*NEW ENTRIES*/
+"++"								{printf("{UNARYINCREMENT, \"%s\"}\n", yytext);}
+"--"								{printf("{UNARYDECREMENT, \"%s\"}\n", yytext);}
+"_"									{printf("{UNDERSCORE, \"%s\"}\n", yytext);}
+"~"									{printf("{TILDE, \"%s\"}\n", yytext);}
+[Ss][Ii][Zz][Ee][Oo][Ff]								{printf("{SIZEOF, \"%s\"}\n", yytext);}
+[Tt][Rr][Yy] 											{printf("{TRY, \"%s\"}\n", yytext);}
+[Cc][Aa][Tt][Cc][Hh]									{printf("{CATCH, \"%s\"}\n", yytext);}
+[Tt][Hh][Rr][Oo][Ww]									{printf("{THROW, \"%s\"}\n", yytext);}
+[Ee][Nn][Dd][Ii][Ff]									{printf("{ENDIF, \"%s\"}\n", yytext);}
+[Ss][Tt][Aa][Tt][Ii][Cc]								{printf("{STATIC, \"%s\"}\n", yytext);}
 
+[A-Za-z][A-Za-z0-9_]{0,30}				{printf("{IDENTIFIER, \"%s\"}\n", yytext);}
 
 %%
 
